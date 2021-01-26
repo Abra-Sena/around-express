@@ -1,5 +1,8 @@
 # Around the U.S. Front End + Back End
 
+## Description
+
+
 ## Directories
 
 `/public` — static files from the build of the React front-end app.
@@ -9,6 +12,12 @@
 `/routes` — routing files.
 
 All other directories are optional and may be created by the developer if necessary. 
+
+### Optional Directories
+
+`/controllers`
+
+`/helpers`
 
 ## Running the Project
 
