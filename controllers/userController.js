@@ -17,7 +17,7 @@ function getOneUser(req, res) {
         return res.status(200).send(thisUser);
       }
 
-      return res.status(400).send({ message: 'User ID not found' });
+      return res.status(404).send({ message: 'User ID not found' });
     })
     .catch(() => res.status(500).send({ message: 'Server Error' }));
 }
