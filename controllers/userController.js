@@ -6,7 +6,8 @@ function getUsers(req, res) {
   getFileContent(pathToData)
     .then((users) => {
       res.status(200).send(users);
-    });
+    })
+    .catch(() => res.status(500).send({ message: 'Server Error' }));
 }
 
 function getOneUser(req, res) {
