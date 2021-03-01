@@ -10,7 +10,6 @@ module.exports = {
   "extends": [
     "airbnb-base",
     "eslint:recommended",
-    "plugin:react/recommended",
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -33,5 +32,8 @@ module.exports = {
     "keyword-spacing": 0,
     "object-curly-spacing": 0,
     "object-curly-newline": 0,
+    "max-len": 0,
+    "indent": 0,
+    "comma-dangle": 0,
   },
 };
