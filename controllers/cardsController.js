@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable indent */
+//import user's model
 const Card = require('../models/cards');
 
 function getCards(req, res) {
@@ -7,7 +6,7 @@ function getCards(req, res) {
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch((err) => res.status(400).send({ message: err }));
+    .catch((err) => res.status(500).send({ message: err }));
 }
 
 function createCard(req, res) {
@@ -19,7 +18,7 @@ function createCard(req, res) {
     })
     .catch((err) => {
       if(err.name === 'ValidationError') {
-        res.status(400).send({ message: err});
+        res.status(400).send({ message: err.message });
       }
       res.status(500).send({ message: err });
     });
@@ -33,33 +32,29 @@ function deleteCard(req, res) {
       }
       return res.send({ data: card });
     })
-    .catch(() => res.status(400).send({ message: 'Card cannot be deleted' }));
+    .catch((err) => res.status(500).send({ message: 'Card cannot be deleted', err }));
 }
 
 function likeCard(req, res) {
-  return Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
-    { new: true },
-    )
+  return Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
     .then((likeId) => {
       if (likeId === null) {
         return res.status(404).send({ message: 'No card with such id' });
       }
-      return res.send();
+      return res.send({ data: likeId });
     })
-    .catch(() => res.status(400).send({ message: 'Card can not be liked' }));
+    .catch((err) => res.status(500).send({ message: 'Card can not be liked', err }));
 }
 
 function unLikeCard(req, res) {
   return Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
-    .then((likeId) => {
-      if (likeId === null) {
+    .then((unLikeId) => {
+      if (unLikeId === null) {
         return res.status(404).send({ message: 'No card with such id' });
       }
-      return res.send();
+      return res.send({ data: unLikeId });
     })
-    .catch(() => res.status(400).send({ message: 'Card cannot be unLiked' }));
+    .catch((err) => res.status(500).send({ message: 'Card cannot be unLiked', err }));
 }
 
 module.exports = {

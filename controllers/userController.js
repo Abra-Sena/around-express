@@ -6,7 +6,7 @@ function getUsers(req, res) {
     .then((users) => {
       res.status(200).send(users);
     })
-    .catch((err) => res.status(500).send(err));
+    .catch((err) => res.status(500).send({ message: err }));
 }
 
 function getOneUser(req, res) {
@@ -22,7 +22,7 @@ function getOneUser(req, res) {
       if(err.name === 'CastError') {
         res.status(400).send({ message: err.message });
       }
-      res.status(500).send({ message: 'Server Error' });
+      res.status(500).send({ message: err });
     });
 }
 
@@ -45,8 +45,8 @@ function updateProfile(req, res) {
   return User.findByIdAndUpdate(
       req.user._id,
       {
-        name: req.params.name,
-        about: req.params.about
+        name: req.body.name,
+        about: req.body.about
       },
       {
         new: true,
@@ -59,11 +59,11 @@ function updateProfile(req, res) {
       }
       return res.status(200).send({ data: profile });
     })
-    .catch(() => res.status(500).send({ message: 'User profile cannot be patched' }));
+    .catch((err) => res.status(500).send({ message: 'User profile cannot be patched', err }));
 }
 
 function updateAvatar(req, res) {
-  return User.findByIdAndUpdate(req.user._id, { avatar: req.params.avatar }, { new: true, runValidators: true })
+  return User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true })
     .then((userAvatar) => {
       if(!userAvatar) {
         return res.status(404).send({ message: 'Not a valid profile id' });
@@ -71,7 +71,7 @@ function updateAvatar(req, res) {
 
       return res.status(200).send(userAvatar);
     })
-    .catch(() => res.status(500).send({ message: 'User avatar cannot be patched' }));
+    .catch((err) => res.status(500).send({ message: 'User avatar cannot be patched', err }));
 }
 
 module.exports = {
