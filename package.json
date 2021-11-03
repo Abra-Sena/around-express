@@ -30,6 +30,6 @@
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "mongoose": "^5.11.18",
-    "validator": "^13.5.2"
+    "validator": "^13.7.0"
   }
 }
